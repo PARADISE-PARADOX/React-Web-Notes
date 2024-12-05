@@ -2,10 +2,10 @@ import React from "react";
 import Trash from "../Icons/Trash";
 import { useRef, useEffect, useState } from "react";
 import Draggable from "react-draggable";
-import { setNewOffset, autoGrow, setZIndex } from "../util";
+import { setNewOffset, autoGrow, setZIndex, bodyParser } from "../util";
 
 const NoteCard = ({ note }) => {
-  const body = JSON.parse(note.body);
+  const body = bodyParser(note.body);
   const [position, setPosition] = useState(JSON.parse(note.position));
   const colors = JSON.parse(note.colors);
   const cardRef = useRef(null);
