@@ -8,12 +8,38 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    --spinner-animation-speed: 2s;
 }
 
 body {
     padding: 0;
     margin: 0;
 }
+
+@keyframes spin {
+
+    /*@keyframes 是一个 CSS 规则，用于创建动画的关键帧。*/
+    from {
+        transform: rotate(0deg);
+        /*动画开始时的角度*/
+    }
+
+    to {
+        transform: rotate(360deg);
+        /*动画结束时的角度*/
+    }
+}
+
+.spinner {
+    animation: spin var(--spinner-animation-speed) linear infinite;
+}
+
+.card-saving {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 
 #app {
     background-color: #212228;
