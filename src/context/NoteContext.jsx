@@ -6,7 +6,8 @@ export const NoteContext = createContext();
 
 const NotesProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [notes, setNotes] = useState();
+  const [notes, setNotes] = useState([]);
+  const [selectedNote, setSelectedNote] = useState(null);
 
   const init = async () => {
     const response = await db.notes.list();
@@ -18,7 +19,12 @@ const NotesProvider = ({ children }) => {
     init();
   }, []);
 
-  const contextData = { notes, setNotes };
+  const contextData = {
+    notes,
+    setNotes,
+    selectedNote,
+    setSelectedNote,
+  };
 
   return (
     <NoteContext.Provider value={contextData}>

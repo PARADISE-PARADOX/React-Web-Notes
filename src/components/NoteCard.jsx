@@ -5,10 +5,14 @@ import Draggable from "react-draggable";
 import { setNewOffset, autoGrow, setZIndex, bodyParser } from "../util";
 import { db } from "../appwrite/databases";
 import Spinner from "../Icons/Spinner";
+import { useContext } from "react";
+import { NoteContext } from "../context/NoteContext";
 
-const NoteCard = ({ note, setNotes }) => {
+const NoteCard = ({ note }) => {
   const [saving, setSaving] = useState(false); //是否正在保存数据
   const keyUpTimer = useRef(null);
+
+  const { setSelectedNote } = useContext(NoteContext);
 
   const body = bodyParser(note.body);
   const [position, setPosition] = useState(JSON.parse(note.position));
@@ -19,6 +23,7 @@ const NoteCard = ({ note, setNotes }) => {
   const textAreaRef = useRef(null);
   useEffect(() => {
     autoGrow(textAreaRef);
+    setZIndex(cardRef.current); //设置卡片的层级
   }, []);
 
   const mouseDown = (e) => {
@@ -31,6 +36,7 @@ const NoteCard = ({ note, setNotes }) => {
       document.addEventListener("mouseup", mouseUp);
 
       setZIndex(cardRef.current); //设置卡片的层级
+      setSelectedNote(note); //设置选中的笔记
     }
   };
 
@@ -99,7 +105,7 @@ const NoteCard = ({ note, setNotes }) => {
         onMouseDown={mouseDown}
         style={{ backgroundColor: colors.colorHeader }}
       >
-        <DeleteButton setNotes={setNotes} noteId={note.$id} />
+        <DeleteButton noteId={note.$id} />
         {saving && (
           <div className="card-saving">
             <Spinner color={colors.colorText} />
@@ -118,6 +124,7 @@ const NoteCard = ({ note, setNotes }) => {
           }}
           onFocus={() => {
             setZIndex(cardRef.current); //设置卡片的层级
+            setSelectedNote(note);
           }}
         ></textarea>
       </div>
